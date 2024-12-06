@@ -36,11 +36,11 @@ class Parser(object):
         if not raw_line:
             return None
         if (raw_line[0] == '@'):
-            return const.A_INSTRUCTION
+            return "A_INSTRUCTION"
         if ((raw_line[0] == '(') and (raw_line[-1] == ')')):
-            return const.L_INSTRUCTION
+            return "L_INSTRUCTION"
         else:
-            return const.C_INSTRUCTION
+            return "C_INSTRUCTION"
 
     def symbol(self):
         if (self.instructionType() == const.L_INSTRUCTION):

@@ -7,13 +7,13 @@ class HackAssembler:
         self.in_path = in_path
         self.out_path = out_path
 
+
     def first_loop(self):
         """
         Runs through each line and creates a symbol table
         """
         parser = Parser(self.in_path)
         table = SymbolTable()
-
         while parser.hasMoreLines():
             #Iterating each line in the file
             parser.advance()
@@ -21,39 +21,46 @@ class HackAssembler:
             if (instruction_type == 'L_INSTRUCTION'):
                 table.addEntry(parser.symbol(), parser.clean_line_pos-1) # Adding the symbol to the table
         table.print_table()
+        print(table.contains("ITSR0"))
+        print(table.getAdress("ITSR0"))
+        return table
 
 
-    def read_and_write(self):
+    def read_and_write(self, table):
         """
         This function reads an .asm file and uses Parser and Code to create a corresponding .hack file.
         """
         parser = Parser(self.in_path)
-        table = SymbolTable()
+        # table = SymbolTable()
         code = Code()
 
         with open(self.out_path, "w") as f:
             while parser.hasMoreLines():
                 parser.advance()  # Move to the next instruction
-                print(parser.current_line)
+                # print(parser.current_line)
                 instruction_type = parser.instructionType() # Determine the type of the current instruction
 
                 if instruction_type == "A_INSTRUCTION":  # Handle @value
                     symbol = parser.symbol()
                     if symbol.isdigit():
-                        # Convert the number to a 16-bit binary value
+                        # Debug: Printing symbol value and decision branch
+                        print(f"Symbol {symbol} is a digit.")
                         binary_instruction = format(int(symbol), '016b')
                         f.write(binary_instruction + "\n")
                     else:
-                        if (table.contains(symbol)):
+                        print(f"Symbol {symbol} is not a digit.")
+                        if table.contains(symbol):
+                            print(f"Symbol {symbol} found in the table with address {table.getAdress(symbol)}.")
                             binary_instruction = format((int)(table.getAdress(symbol)), '016b')
                             f.write(binary_instruction + "\n")
-
-                        else: #if it doesnot exist - enter its addreess
-                            table.addEntry(symbol,table.first_empty_space)  ## if the symbol does not exist - add it in the free space
+                        else:
+                            print(f"Symbol {symbol} not found. Adding to table.")
+                            table.addEntry(symbol, table.first_empty_space)
                             binary_instruction = format((int)(table.first_empty_space), '016b')
                             f.write(binary_instruction + "\n")
                             table.first_empty_space += 1
-                            print("condition works")
+                            print("Condition works")
+
 
                 elif instruction_type == "C_INSTRUCTION":  # Handle dest=comp;jump
                     comp_bits = code.comp(parser.comp())
@@ -66,12 +73,13 @@ class HackAssembler:
                     binary_instruction = format((int)(table.getAdress(symbol)), '016b')
                     f.write(binary_instruction + "\n")
 
-        print(table.table)
+
 
 
 
 
 assembler = HackAssembler("C:/secondYear/Nand2Tetris/Max.asm", "C:/secondYear/Nand2Tetris/Max.hack")
-assembler.read_and_write()
+table = assembler.first_loop()
+assembler.read_and_write(table)
 
 

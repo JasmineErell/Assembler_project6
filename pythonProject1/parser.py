@@ -10,6 +10,7 @@ class Parser(object):
         self.file = open(self.file_path)
         self.lts_lines = self.file.readlines()
         self.current_line = None
+        self.clean_line_pos = 0
         self.pos = 0
 
     def line_cleaner(self, string):
@@ -25,9 +26,10 @@ class Parser(object):
     def advance(self):
         while self.hasMoreLines():
             raw_line = self.lts_lines[self.pos]  # Read the next line
-            self.pos += 1  # Increment position
             current_line = self.line_cleaner(raw_line)  # Clean the line
+            self.pos +=1
             if current_line:  # Return the first non-empty, cleaned line
+                self.clean_line_pos +=1
                 self.current_line = current_line
                 return
         self.current_line = None  # Set to None if no valid lines are found

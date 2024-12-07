@@ -1,13 +1,15 @@
 from symbolTable import SymbolTable
 from parser import Parser
 from hack_code import Code
+import os
 
 class HackAssembler:
-    def __init__(self, in_path, out_path):
+    def __init__(self, in_path):
         self.in_path = in_path
-        self.out_path = out_path
 
-
+    def path_slicing(self, path):
+        base, _ = os.path.splitext(path)  # Split the path into base and extension
+        return base + ".hack"
     def first_loop(self):
         """
         Runs through each line and creates a symbol table
@@ -33,8 +35,8 @@ class HackAssembler:
         parser = Parser(self.in_path)
         # table = SymbolTable()
         code = Code()
-
-        with open(self.out_path, "w") as f:
+        out_path = self.path_slicing(self.in_path)
+        with open(out_path, "w", newline='\n') as f:
             while parser.hasMoreLines():
                 parser.advance()  # Move to the next instruction
                 # print(parser.current_line)
@@ -69,17 +71,10 @@ class HackAssembler:
                     binary_instruction = "111" + comp_bits + dest_bits + jump_bits
                     f.write(binary_instruction + "\n")
 
-                # elif instruction_type == "L_INSTRUCTION": # Handle symbols such as (LOOP)
-                #     binary_instruction = format((int)(table.getAdress(symbol)), '016b')
-                #     f.write(binary_instruction + "\n")
 
-
-
-
-
-
-assembler = HackAssembler("C:/secondYear/Nand2Tetris/Max.asm", "C:/secondYear/Nand2Tetris/Max.hack")
+assembler = HackAssembler("C:/secondYear/Nand2Tetris/Max.asm")
 table = assembler.first_loop()
 assembler.read_and_write(table)
+print(assembler.path_slicing("C:/secondYear/Nand2Tetris/Max.asm"))
 
 

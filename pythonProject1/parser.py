@@ -13,7 +13,9 @@ class Parser(object):
         self.pos = 0
 
     def line_cleaner(self, string):
-        # Cleans comments and whitespace from a line
+        """
+        Cleans comments and whitespace from a line
+        """
         return string.split("//")[0].strip()
 
     def hasMoreLines(self):

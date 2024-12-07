@@ -28,15 +28,17 @@ class Parser(object):
             raw_line = self.lts_lines[self.pos]  # Read the next line
             current_line = self.line_cleaner(raw_line)  # Clean the line
             self.pos +=1
-            if current_line:  # Return the first non-empty, cleaned line
-                self.clean_line_pos +=1
+            # if current_line and self.instructionType()!= "L_INSTRUCTION":  # Return the first non-empty, cleaned line
+            if current_line:
+                if self.instructionType()!= "L_INSTRUCTION":
+                    self.clean_line_pos +=1
                 self.current_line = current_line
                 return
         self.current_line = None  # Set to None if no valid lines are found
 
     def instructionType(self):
         ### takes a single line and tells us if its an A,C or L instruction according to the rules ###
-        raw_line = self.line_cleaner(self.current_line)
+        raw_line = self.line_cleaner(str(self.current_line))
         if not raw_line:
             return None
         if (raw_line[0] == '@'):

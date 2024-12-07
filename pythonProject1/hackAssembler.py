@@ -1,6 +1,6 @@
 from symbolTable import SymbolTable
 from parser import Parser
-from code import Code
+from hack_code import Code
 
 class HackAssembler:
     def __init__(self, in_path, out_path):
@@ -21,8 +21,8 @@ class HackAssembler:
             if (instruction_type == 'L_INSTRUCTION'):
                 table.addEntry(parser.symbol(), parser.clean_line_pos-1) # Adding the symbol to the table
         table.print_table()
-        print(table.contains("ITSR0"))
-        print(table.getAdress("ITSR0"))
+        print(table.contains("OUTPUT_D"))
+        print(table.getAdress("OUTPUT_D"))
         return table
 
 
@@ -69,9 +69,9 @@ class HackAssembler:
                     binary_instruction = "111" + comp_bits + dest_bits + jump_bits
                     f.write(binary_instruction + "\n")
 
-                elif instruction_type == "L_INSTRUCTION": # Handle symbols such as (LOOP)
-                    binary_instruction = format((int)(table.getAdress(symbol)), '016b')
-                    f.write(binary_instruction + "\n")
+                # elif instruction_type == "L_INSTRUCTION": # Handle symbols such as (LOOP)
+                #     binary_instruction = format((int)(table.getAdress(symbol)), '016b')
+                #     f.write(binary_instruction + "\n")
 
 
 

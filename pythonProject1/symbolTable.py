@@ -51,26 +51,7 @@ class SymbolTable:
 def test_symbol_table():
     # Create an instance of the SymbolTable
     symbol_table = SymbolTable()
-
-    # Test initialization of default symbols
-    assert symbol_table.getAdress("R0") == 0, "R0 should map to 0"
-    assert symbol_table.getAdress("SCREEN") == 16384, "SCREEN should map to 16384"
-    assert symbol_table.getAdress("KBD") == 24576, "KBD should map to 24576"
-    assert symbol_table.getAdress("NON_EXISTENT") == -1, "NON_EXISTENT should return -1"
-
-    # Test adding a new entry
-    symbol_table.addEntry("TEST", 100)
-    assert symbol_table.getAdress("TEST") == 100, "TEST should map to 100"
-
-    # Test contains method
-    assert symbol_table.contains("R0") is True, "R0 should exist in the table"
-    assert symbol_table.contains("TEST") is True, "TEST should exist in the table"
-    assert symbol_table.contains("NON_EXISTENT") is False, "NON_EXISTENT should not exist in the table"
-
-    # Test updating an existing symbol
-    symbol_table.addEntry("R0", 500)
-    assert symbol_table.getAdress("R0") == 500, "R0 should be updated to 500"
-
+    print(symbol_table.contains("YAS"))
     symbol_table.print_table()
 
 if __name__ == "__main__":

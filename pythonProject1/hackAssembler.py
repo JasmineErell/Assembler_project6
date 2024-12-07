@@ -20,7 +20,7 @@ class HackAssembler:
             instruction_type = parser.instructionType()
             if (instruction_type == 'L_INSTRUCTION'):
                 table.addEntry(parser.symbol(), parser.clean_line_pos-1) # Adding the symbol to the table
-
+        table.print_table()
 
 
     def read_and_write(self):
@@ -34,6 +34,7 @@ class HackAssembler:
         with open(self.out_path, "w") as f:
             while parser.hasMoreLines():
                 parser.advance()  # Move to the next instruction
+                print(parser.current_line)
                 instruction_type = parser.instructionType() # Determine the type of the current instruction
 
                 if instruction_type == "A_INSTRUCTION":  # Handle @value
@@ -41,33 +42,36 @@ class HackAssembler:
                     if symbol.isdigit():
                         # Convert the number to a 16-bit binary value
                         binary_instruction = format(int(symbol), '016b')
+                        f.write(binary_instruction + "\n")
                     else:
-                        if (not table.contains(symbol)):
-                            table.addEntry(symbol, table.first_empty_space) ## if the symbol does not exist - add it in the free space
+                        if (table.contains(symbol)):
+                            binary_instruction = format((int)(table.getAdress(symbol)), '016b')
+                            f.write(binary_instruction + "\n")
+
+                        else: #if it doesnot exist - enter its addreess
+                            table.addEntry(symbol,table.first_empty_space)  ## if the symbol does not exist - add it in the free space
+                            binary_instruction = format((int)(table.first_empty_space), '016b')
+                            f.write(binary_instruction + "\n")
                             table.first_empty_space += 1
+                            print("condition works")
+
+                elif instruction_type == "C_INSTRUCTION":  # Handle dest=comp;jump
+                    comp_bits = code.comp(parser.comp())
+                    dest_bits = code.dest(parser.dest())
+                    jump_bits = code.jump(parser.jump())
+                    binary_instruction = "111" + comp_bits + dest_bits + jump_bits
+                    f.write(binary_instruction + "\n")
+
+                elif instruction_type == "L_INSTRUCTION": # Handle symbols such as (LOOP)
+                    binary_instruction = format((int)(table.getAdress(symbol)), '016b')
+                    f.write(binary_instruction + "\n")
+
+        print(table.table)
 
 
-                # elif instruction_type == "C_INSTRUCTION":  # Handle dest=comp;jump
-                    # Translate the C-instruction components
-                    # comp_bits = code.comp(parser.comp())
-                    # dest_bits = code.dest(parser.dest())
-                    # jump_bits = code.jump(parser.jump())
-                    # Combine into the final 16-bit instruction
-                    # binary_instruction = "111" + comp_bits + dest_bits + jump_bits
-
-                # else:
-                #     continue  # Ignore labels or other lines
-
-                # Write the translated binary instruction to the output file
-                # f.write(binary_instruction + "\n")
 
 
-assembler = HackAssembler("C:/secondYear/Nand2Tetris/MaxL.asm", "C:/secondYear/Nand2Tetris/res.txt")
-
-
-# Run the read_and_write function
-#assembler.read_and_write()
-
+assembler = HackAssembler("C:/secondYear/Nand2Tetris/Max.asm", "C:/secondYear/Nand2Tetris/Max.hack")
 assembler.read_and_write()
 
 

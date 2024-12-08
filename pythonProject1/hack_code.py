@@ -1,5 +1,6 @@
 class Code:
     def __init__(self):
+
         self.dest_table = {
             None: "000",
             "M": "001",

@@ -3,8 +3,9 @@ from parser import Parser
 from hack_code import Code
 import os
 
-class HackAssembler:
+class Assembler:
     def __init__(self, in_path):
+
         self.in_path = in_path
 
     def path_slicing(self, path):
@@ -72,9 +73,9 @@ class HackAssembler:
                     f.write(binary_instruction + "\n")
 
 
-assembler = HackAssembler("C:/secondYear/Nand2Tetris/Max.asm")
-table = assembler.first_loop()
-assembler.read_and_write(table)
-print(assembler.path_slicing("C:/secondYear/Nand2Tetris/Max.asm"))
+# assembler = Assembler("C:/secondYear/Nand2Tetris/Max.asm")
+# table = assembler.first_loop()
+# assembler.read_and_write(table)
+# print(assembler.path_slicing("C:/secondYear/Nand2Tetris/Max.asm"))
 
 

@@ -24,7 +24,7 @@ class SymbolTable:
             "THIS" : 3,
             "THAT" :4
         }
-        self.first_empty_space = 15
+        self.first_empty_space = 16
 
     def addEntry(self, str, address):
         """

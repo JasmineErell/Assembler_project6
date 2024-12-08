@@ -96,7 +96,7 @@ def test_code_class():
     assert code.jump("JMP") == "111", "jump('JMP') failed"
     assert code.jump(None) == "000", "jump(None) failed"
 
-    print("All passed!")
+
 
 # Run the test
 test_code_class()

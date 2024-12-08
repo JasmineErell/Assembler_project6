@@ -48,12 +48,4 @@ class SymbolTable:
         print(self.table)
 
 
-def test_symbol_table():
-    # Create an instance of the SymbolTable
-    symbol_table = SymbolTable()
-    print(symbol_table.contains("YAS"))
-    symbol_table.print_table()
-
-if __name__ == "__main__":
-    test_symbol_table()
 

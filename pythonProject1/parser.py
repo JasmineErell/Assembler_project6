@@ -1,8 +1,3 @@
-from pconst import const
-
-const.A_INSTRUCTION = "A_INSTRUCTION"
-const.L_INSTRUCTION = "L_INSTRUCTION"
-const.C_INSTRUCTION = "C_INSTRUCTION"
 
 class Parser(object):
     def __init__(self, file_path):
@@ -49,9 +44,9 @@ class Parser(object):
             return "C_INSTRUCTION"
 
     def symbol(self):
-        if (self.instructionType() == const.L_INSTRUCTION):
+        if (self.instructionType() == "L_INSTRUCTION"):
             return str(self.line_cleaner(self.current_line)[1:-1]) #returns the symbol without ( , ) as a string
-        if (self.instructionType() == const.A_INSTRUCTION):
+        if (self.instructionType() == "A_INSTRUCTION"):
             return str(self.line_cleaner(self.current_line)[1:]) #returns the symbol without @ as a string
         else:
             return None

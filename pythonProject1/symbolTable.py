@@ -16,6 +16,7 @@ class SymbolTable:
             "R12" : 12,
             "R13" : 13,
             "R14" : 14,
+            "R15" : 15,
             "SCREEN": 16384,
             "KBD" : 24576,
             "SP" : 0,
@@ -24,7 +25,7 @@ class SymbolTable:
             "THIS" : 3,
             "THAT" :4
         }
-        self.first_empty_space = 16
+        self.first_empty_space = 17
 
     def addEntry(self, str, address):
         """
